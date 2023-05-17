@@ -135,7 +135,8 @@ abstract class AbstractThreadPoolStrategy
             {
                 disable();
                 threadPool.shutdown();
-                this.isDestroyed |= threadPool.awaitTermination( Long.MAX_VALUE, TimeUnit.NANOSECONDS );
+                long waitDuration = Long.getLong( "maven.surefire.awaitTermination", Long.MAX_VALUE );
+                this.isDestroyed |= threadPool.awaitTermination( waitDuration, TimeUnit.MILLISECONDS );
             }
             return isDestroyed;
         }
